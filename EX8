@@ -1,0 +1,61 @@
+import numpy as np
+
+X = np.array([
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+])
+
+Y = np.array([0, 0, 0, 1])
+
+
+def step(x):
+    return 1 if x > 0 else 0
+
+
+def train(learning_rate):
+
+    weights = np.array([0.3, 0.1], dtype=float)
+    bias = 0
+
+    for epoch in range(1, 101):
+
+        total_error = 0
+
+        for x, target in zip(X, Y):
+
+            net = np.dot(x, weights) + bias
+            output = step(net)
+
+            error = target - output
+            total_error += abs(error)
+
+            weights += learning_rate * error * x
+            bias += learning_rate * error
+
+        if total_error == 0:
+            break
+
+    # Accuracy
+    correct = 0
+
+    for x, target in zip(X, Y):
+        output = step(np.dot(x, weights) + bias)
+        if output == target:
+            correct += 1
+
+    accuracy = correct / len(Y) * 100
+
+    return epoch, weights, bias, accuracy
+
+
+for eta in [0.1, 0.5, 1.0]:
+
+    epochs, weights, bias, accuracy = train(eta)
+
+    print("\nLearning Rate:", eta)
+    print("Number of Epochs:", epochs)
+    print("Final Weights:", weights)
+    print("Final Bias:", bias)
+    print("Accuracy:", accuracy, "%")
