@@ -1,0 +1,27 @@
+import numpy as np
+
+X = np.array([
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+])
+
+Y = np.array([0, 1, 1, 0])
+
+weights = np.array([0.5, 0.5])
+bias = -0.5
+
+
+def step(x):
+    return 1 if x > 0 else 0
+
+
+print("X1\tX2\tTarget\tOutput")
+
+for x, target in zip(X, Y):
+
+    net = np.dot(x, weights) + bias
+    output = step(net)
+
+    print(x[0], "\t", x[1], "\t", target, "\t", output)
